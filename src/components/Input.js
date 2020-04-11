@@ -1,6 +1,5 @@
-import React, {useState, useRef, useEffect, useReducer} from "react";
+import React, {useRef} from "react";
 import styled from "styled-components";
-import rulesConfig from "../utils/inputAttributes";
 import isValidUtil from "../utils/validityConfig";
 import useStateHook from "../useStateHook";
 
@@ -53,12 +52,10 @@ export default function Input(props) {
 
   const {type, onChangeCallBack} = props;
 
-  const attrs = rulesConfig(type);
-
   const onValueChange = (e) => {
     e.preventDefault();
     let value = e.target.value;
-    let {isValid, errorMessage} = isValidUtil(attrs, value, inputEl.current);
+    let {isValid, errorMessage} = isValidUtil(type, value, inputEl.current);
     onChangeCallBack(inputState);
     inputEl.current.setCustomValidity(isValid ? "" : "true");
     setInputState({

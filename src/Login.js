@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useContext} from "react";
 import styled from "styled-components";
 import Form from "./components/Form";
 import Logo from "./components/Logo";
 import {Text1, Text2} from "./components/Text";
 import Input from "./components/Input";
+import {FormContext} from "./FormContext";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -13,6 +14,9 @@ const Wrapper = styled.div`
 `;
 
 export default function Login() {
+  const {onFieldValueChange, isFormValid, email} = useContext(FormContext);
+
+  console.log("isFormValid", isFormValid, "|", email);
   return (
     <Wrapper>
       <Form>
@@ -21,11 +25,16 @@ export default function Login() {
         <Text2 txt="Use you Healthifyme Account" />
         <Input
           type="email"
-          onChangeCallBack={(x) => {
-            console.log("x", x);
+          onChangeCallBack={(param) => {
+            onFieldValueChange({key: "email", ...param});
           }}
         />
-        <Input type="password" />
+        <Input
+          type="password"
+          onChangeCallBack={(param) => {
+            onFieldValueChange({key: "password", ...param});
+          }}
+        />
       </Form>
     </Wrapper>
   );

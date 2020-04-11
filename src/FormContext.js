@@ -14,7 +14,10 @@ const initialState = {
 
 const reducer = (state, action) => {
   if (action.type === FIELD_CHANGED) {
-    return state;
+    const {
+      payload: {key, value, isValid},
+    } = action;
+    return {...state, [key]: value, isFormValid: state.isFormValid && isValid};
   }
   if (action.type === LOGIN_STATUS_CHANGED) {
     return state;
@@ -44,6 +47,7 @@ export const FormProvider = ({children}) => {
     password: state.password,
     onFieldValueChange,
     loginStatusChange,
+    isFormValid: state.isFormValid,
   };
 
   return <FormContext.Provider value={value}>{children}</FormContext.Provider>;

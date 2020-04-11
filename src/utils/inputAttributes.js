@@ -4,15 +4,16 @@ const inputAttributes = (inputType) => {
 
   if (_inputType === "email") {
     attrs = {
-      required: "required",
+      required: true,
+      minLength: 5,
       placeholder: "Enter your Email",
+      pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
     };
   }
 
   if (_inputType === "password") {
     attrs = {
-      maxLength: 4,
-      required: "required",
+      minLength: 6,
       pattern: /[A-Z]{1,2}/g,
       placeholder: "Enter your Password",
     };
