@@ -14,9 +14,8 @@ const Wrapper = styled.div`
 `;
 
 export default function Login() {
-  const {onFieldValueChange, isFormValid, email} = useContext(FormContext);
+  const {onFieldValueChange, password, email} = useContext(FormContext);
 
-  console.log("isFormValid", isFormValid, "|", email);
   return (
     <Wrapper>
       <Form>
@@ -25,12 +24,14 @@ export default function Login() {
         <Text2 txt="Use you Healthifyme Account" />
         <Input
           type="email"
+          valueParam={email}
           onChangeCallBack={(param) => {
             onFieldValueChange({key: "email", ...param});
           }}
         />
         <Input
           type="password"
+          valueParam={password}
           onChangeCallBack={(param) => {
             onFieldValueChange({key: "password", ...param});
           }}

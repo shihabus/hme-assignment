@@ -1,7 +1,6 @@
 import React, {useRef} from "react";
 import styled from "styled-components";
 import isValidUtil from "../utils/validityConfig";
-import useStateHook from "../useStateHook";
 
 const Wrapper = styled.div`
   text-align: left;
@@ -38,31 +37,21 @@ const ErrorText = styled.p`
   color: #c12e2e;
 `;
 
-const initialState = {
-  value: "",
-  isValid: false,
-  errorMessage: "",
-};
-
 export default function Input(props) {
-  const [inputState, setInputState] = useStateHook(initialState);
-  const {value, isValid, errorMessage} = inputState;
-
   const inputEl = useRef(null);
 
-  const {type, onChangeCallBack} = props;
+  const {
+    type,
+    onChangeCallBack,
+    valueParam: {value, isValid, errorMessage},
+  } = props;
 
   const onValueChange = (e) => {
     e.preventDefault();
     let value = e.target.value;
     let {isValid, errorMessage} = isValidUtil(type, value, inputEl.current);
-    onChangeCallBack(inputState);
+    onChangeCallBack({value, isValid, errorMessage});
     inputEl.current.setCustomValidity(isValid ? "" : "true");
-    setInputState({
-      value,
-      isValid,
-      errorMessage,
-    });
   };
 
   return (
