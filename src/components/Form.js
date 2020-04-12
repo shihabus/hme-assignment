@@ -25,6 +25,7 @@ const Submit = styled.input`
   color: white;
   font-size: 1rem;
   border: none;
+  cursor: pointer;
 
   :disabled {
     background: #e1e1e1;

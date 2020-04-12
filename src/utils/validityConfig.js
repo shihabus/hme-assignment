@@ -9,7 +9,7 @@ const validityChecker = (type, value, ref) => {
   if (rules.required) {
     if (_value.trim().length <= 0) {
       isValid = false;
-      errorMessage = `Required field cannot be empty.`;
+      errorMessage = `Required field cannot be empty`;
     }
   }
 
@@ -17,14 +17,14 @@ const validityChecker = (type, value, ref) => {
     ref.setAttribute("maxlength", rules.maxLength);
     if (_value.length >= rules.maxLength) {
       isValid = false;
-      errorMessage = `Max length is ${rules.maxLength}.`;
+      errorMessage = `Max length is ${rules.maxLength}`;
     }
   }
 
   if (rules.pattern) {
     if (!rules.pattern.test(_value)) {
       isValid = false;
-      errorMessage = `Please enter a valid input.`;
+      errorMessage = rules.patternText || `Please enter a valid input`;
     }
   }
 
@@ -32,7 +32,7 @@ const validityChecker = (type, value, ref) => {
     ref.setAttribute("minlength", rules.minLength);
     if (_value.length < rules.minLength) {
       isValid = false;
-      errorMessage = `Min length is ${rules.minLength}.`;
+      errorMessage = `Min length is ${rules.minLength}`;
     }
   }
 

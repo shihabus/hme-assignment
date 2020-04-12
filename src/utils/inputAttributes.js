@@ -8,14 +8,16 @@ const inputAttributes = (inputType) => {
       minLength: 5,
       placeholder: "Enter your Email",
       pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      patternText: "Please enter a valid email id",
     };
   }
 
   if (_inputType === "password") {
     attrs = {
       minLength: 6,
-      pattern: /[A-Z]{1,2}/g,
+      pattern: /(?=.*[A-Z])/g,
       placeholder: "Enter your Password",
+      patternText: "Must contain one Upper case letter",
     };
   }
 
