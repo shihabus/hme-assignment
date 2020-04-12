@@ -22,7 +22,7 @@ const Container = styled.form`
   box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.15);
 `;
 
-const Submit = styled.input`
+const Submit = styled.input.attrs({type: "submit"})`
   background: #e82b28;
   padding: 0.75rem 0.5rem;
   border-radius: 5px;
@@ -37,25 +37,26 @@ const Submit = styled.input`
   }
 `;
 
-const loginUser = async (setStatus, successCallBack) => {
-  try {
-    setStatus(LOADING);
-    const data = await fetch(endpoint);
-    const resp = await data.json();
-    setStatus(SUCCESS);
-    successCallBack();
-  } catch (error) {
-    setStatus(FAILED);
-  }
+const loginUser = (setStatus, successCallBack) => {
+  setStatus(LOADING);
+  fetch(endpoint)
+    .then((data) => data.json())
+    .then((resp) => {
+      setStatus(SUCCESS);
+      successCallBack();
+    })
+    .catch(() => setStatus(FAILED));
 };
 
 const Loader = () => (
-  <Overlay>
+  <Overlay aria-label="overlay">
     <Spinner loadingText="Loading..." />
   </Overlay>
 );
 
-const Notification = (type, message) => <Toast type={type} message={message} />;
+const Notification = (type, message) => (
+  <Toast aria-label="notification" type={type} message={message} />
+);
 
 export default function Form({children}) {
   const [loginState, setLoginState] = useState(null);
@@ -64,12 +65,13 @@ export default function Form({children}) {
   const handleSubmit = (e) => {
     e.preventDefault();
     loginUser(setLoginState, resetForm);
+    console.log("AA");
   };
 
   return (
-    <Container onSubmit={handleSubmit}>
+    <Container onSubmit={handleSubmit} aria-label="form">
       {children}
-      <Submit type="submit" value="Login" disabled={!isFormValid} />
+      <Submit type="submit" value="Login" disabled={!isFormValid} aria-label="submit" />
       {loginState === LOADING && Loader()}
       {loginState === SUCCESS && Notification("success", "Login was successful")}
       {loginState === FAILED && Notification("error", "Login failed")}

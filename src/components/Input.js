@@ -56,8 +56,14 @@ export default function Input(props) {
 
   return (
     <Wrapper>
-      <InputField ref={inputEl} {...props} value={value} onChange={onValueChange} />
-      {!isValid && <ErrorText>{errorMessage}</ErrorText>}
+      <InputField
+        aria-label="input"
+        ref={inputEl}
+        {...props}
+        value={value}
+        onChange={onValueChange}
+      />
+      {!isValid && <ErrorText aria-label="error-message">{errorMessage}</ErrorText>}
     </Wrapper>
   );
 }
