@@ -3,8 +3,12 @@ import styled from "styled-components";
 import endpoint from "../configs/endpoint";
 import {FormContext} from "../FormContext";
 import {LOADING, SUCCESS, FAILED} from "../configs/fetchStatus";
+import Overlay from "./Overlay";
+import Spinner from "./Spinner";
+import Toast from "./Toast";
 
 const Container = styled.form`
+  position: relative;
   width: 45%;
   max-width: 400px;
   background: white;
@@ -14,7 +18,7 @@ const Container = styled.form`
   align-items: stretch;
   text-align: center;
   border-radius: 10px;
-  padding: 2.5% 1.5%;
+  padding: 2.5% 2%;
   box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.15);
 `;
 
@@ -33,30 +37,42 @@ const Submit = styled.input`
   }
 `;
 
-const loginUser = async (setStatus) => {
+const loginUser = async (setStatus, successCallBack) => {
   try {
     setStatus(LOADING);
     const data = await fetch(endpoint);
     const resp = await data.json();
     setStatus(SUCCESS);
+    successCallBack();
   } catch (error) {
     setStatus(FAILED);
   }
 };
 
+const Loader = () => (
+  <Overlay>
+    <Spinner loadingText="Loading..." />
+  </Overlay>
+);
+
+const Notification = (type, message) => <Toast type={type} message={message} />;
+
 export default function Form({children}) {
-  const {resetForm, loginStatusChange, isFormValid} = useContext(FormContext);
+  const [loginState, setLoginState] = useState(null);
+  const {resetForm, isFormValid} = useContext(FormContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    loginUser(loginStatusChange);
-    resetForm();
+    loginUser(setLoginState, resetForm);
   };
 
   return (
     <Container onSubmit={handleSubmit}>
       {children}
       <Submit type="submit" value="Login" disabled={!isFormValid} />
+      {loginState === LOADING && Loader()}
+      {loginState === SUCCESS && Notification("success", "Login was successful")}
+      {loginState === FAILED && Notification("error", "Login failed")}
     </Container>
   );
 }

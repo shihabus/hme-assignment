@@ -25,17 +25,15 @@ export default function Login() {
         <Text2 txt="Use you Healthifyme Account" />
         <Input
           type="email"
+          placeholder="Enter your email"
           valueParam={email}
-          onChangeCallBack={(param) => {
-            onFieldValueChange({key: "email", ...param});
-          }}
+          onChangeCallBack={(param) => onFieldValueChange({key: "email", ...param})}
         />
         <Input
           type="password"
+          placeholder="Enter your password"
           valueParam={password}
-          onChangeCallBack={(param) => {
-            onFieldValueChange({key: "password", ...param});
-          }}
+          onChangeCallBack={(param) => onFieldValueChange({key: "password", ...param})}
         />
       </Form>
     </Wrapper>

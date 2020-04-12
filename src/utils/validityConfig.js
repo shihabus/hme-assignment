@@ -6,13 +6,6 @@ const validityChecker = (type, value, ref) => {
   let rules = rulesConfig(type);
   let _value = String(value);
 
-  if (rules.required) {
-    if (_value.trim().length <= 0) {
-      isValid = false;
-      errorMessage = `Required field cannot be empty`;
-    }
-  }
-
   if (rules.maxLength) {
     ref.setAttribute("maxlength", rules.maxLength);
     if (_value.length >= rules.maxLength) {
@@ -33,6 +26,13 @@ const validityChecker = (type, value, ref) => {
     if (_value.length < rules.minLength) {
       isValid = false;
       errorMessage = `Min length is ${rules.minLength}`;
+    }
+  }
+
+  if (rules.required) {
+    if (_value.trim().length <= 0) {
+      isValid = false;
+      errorMessage = `Required field cannot be empty`;
     }
   }
 

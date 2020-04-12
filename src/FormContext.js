@@ -3,7 +3,6 @@ import React, {useReducer, createContext} from "react";
 export const FormContext = createContext();
 
 const FIELD_CHANGED = "FIELD_CHANGED";
-const LOGIN_STATUS_CHANGED = "LOGIN_STATUS_CHANGED";
 const RESET_FORM = "RESET_FORM";
 
 const initialState = {
@@ -13,7 +12,6 @@ const initialState = {
   password: "",
   passwordIsValid: false,
   passwordErrorMessage: "",
-  loginStatus: null,
 };
 
 const reducer = (state, action) => {
@@ -31,9 +29,7 @@ const reducer = (state, action) => {
   if (action.type === RESET_FORM) {
     return initialState;
   }
-  if (action.type === LOGIN_STATUS_CHANGED) {
-    return {...state, loginStatus: action.payload};
-  }
+
   return state;
 };
 
@@ -43,13 +39,6 @@ export const FormProvider = ({children}) => {
   const onFieldValueChange = (payload) => {
     dispatch({
       type: FIELD_CHANGED,
-      payload,
-    });
-  };
-
-  const loginStatusChange = (payload) => {
-    dispatch({
-      type: LOGIN_STATUS_CHANGED,
       payload,
     });
   };
@@ -72,10 +61,8 @@ export const FormProvider = ({children}) => {
       errorMessage: state.passwordErrorMessage,
     },
     onFieldValueChange,
-    loginStatusChange,
     resetForm,
     isFormValid: state.emailIsValid && state.passwordIsValid,
-    loginState: state.loginStatus,
   };
 
   return <FormContext.Provider value={value}>{children}</FormContext.Provider>;
